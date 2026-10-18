@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  tentacle:
+    image: octopusdeploy/tentacle:latest
+    container_name: octopus-tentacle
+    restart: always
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "ListeningPort=10933"
+      - "ServerUrl=http://localhost:1322/"        # Replace with your Octopus Server URL
+      - "ServerUsername=admin"             # Replace with your Octopus API Key
+      - "ServerPassword=SecreTP@assw0rd"             # Replace with your Octopus API Key
+      - "TargetName=dev-tentacle"         # Replace with the name of the Tentacle
+      - "TargetEnvironment=dev"  # Replace with the environment names (comma-separated)
+      - "TargetRole=dev-role"               # Replace with the roles for the Tentacle (comma-separated)
+      - "OCTOPUS_SERVER_THUMBPRINT=7F7527F06F8204586F5C5750C4E3173E561FBDF1" # Replace with your Octopus Server's thumbprint
+    volumes:
+      - tentacle-data:/etc/octopus
+    ports:
+    - "10933:10933"
+
+volumes:
+  tentacle-data:
